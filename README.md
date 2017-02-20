@@ -3,6 +3,8 @@ Similar to a Rubber Ducky, except not. The Rubber Dove can't be run when plugged
 like the Ducky, but can instead be run manually when saved from an email, run from any
 generic USB, etc. The Rubber Dove is a software-only version of the Duck.
 
+THIS SOFTWARE IS STRICTLY FOR EDUCATIONAL PURPOSES ONLY! I AM NOT LIABLE FOR ANYTHING YOU USE MY CODE FOR
+
 ### How to use
 Build Rubber Dove (or just download a binary) and copy to a USB. Create a text file and
 rename it to 'input.rds', then open in your favourite text editor and let your imagination
