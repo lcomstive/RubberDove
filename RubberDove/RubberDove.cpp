@@ -1,7 +1,7 @@
 /*
 	Rubber Dove - Like the Ducky, except it's not
 
-	Copyright (C) 2017  lcomstive
+	Copyright (C) 2019 Lewis Comstive
 
 	Permission is hereby granted, free of charge, to any person obtaining a copy
 	of this software and associated documentation files (the "Software"), to deal
@@ -20,10 +20,18 @@
 	LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 	OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 	SOFTWARE.
+
+	THIS SOFTWARE IS STRICTLY FOR EDUCATIONAL PURPOSES ONLY! I AM NOT LIABLE FOR ANYTHING YOU USE IT FOR
 */
+
+/** Platform Check **/
 #ifndef _WIN32
-#error "RubberDove is currently only supported on Windows!"
+#error "RubberDove is only supported on Windows!"
+#else
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 #endif
+
 #include <string>
 #include <vector>
 #include <fstream>
@@ -32,14 +40,10 @@
 #include <iterator>
 #include <iostream>
 #include <algorithm>
-#include <Windows.h>
+
+// MMDeviceAPI for controlling volume levels
 #include <mmdeviceapi.h>
 #include <endpointvolume.h>
-
-#define WINVER 0x0500
-#define _WIN32_WINNT 0x0500
-#define INPUT_FILE "./input.rds"
-#define ERROR_FILE "./errors.txt"
 
 using namespace std;
 
@@ -58,6 +62,11 @@ struct KeyCommand
 		delay = 0;
 	}
 };
+
+// Global variables
+const char* InputFile = "./input.rds";
+const char* ErrorFile = "./errors.txt";
+const unsigned int DefaultDelay = 20;
 
 bool rawText = false;
 vector<KeyCommand> keys;
@@ -305,16 +314,16 @@ void SetVolume(unsigned int volumePercent)
 unsigned int default_delay = 20;
 int main()
 {
-	ofstream errorStream((const char*)ERROR_FILE, ios::out | ios::app);
+	ofstream errorStream(ErrorFile, ios::out | ios::app);
 	std::cerr.rdbuf(errorStream.rdbuf());
 	std::cout.rdbuf(errorStream.rdbuf());
 
 	ShowWindow(GetConsoleWindow(), SW_HIDE);
 	ifstream file;
-	file.open((const char*)INPUT_FILE);
+	file.open(InputFile);
 	if (!file.is_open())
 	{
-		ofstream oFile((const char*)INPUT_FILE, ios::out);
+		ofstream oFile(InputFile, ios::out);
 		oFile << "default_delay 50" << endl;
 		oFile << "WINDOWS r" << endl;
 		oFile << "notepad" << endl;
@@ -323,7 +332,7 @@ int main()
 		oFile << "Hello, world!" << endl;
 		oFile.flush();
 		oFile.close();
-		file.open((const char*)INPUT_FILE, ios::out);
+		file.open(InputFile, ios::out);
 	}
 
 	string line, lower;

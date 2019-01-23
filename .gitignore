@@ -1,3 +1,7 @@
+.vs/
+Release/
+Debug/
+
 # Compiled Object files
 *.slo
 *.lo
